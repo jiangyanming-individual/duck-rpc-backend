@@ -9,8 +9,8 @@ import com.jiang.example.common.service.UserService;
  */
 public class EasyConsumerExample {
     public static void main(String[] args) {
-        User user = new User("duck");
 
+        User user = new User("duck");
         UserService userService = null;
         User newUser = userService.getUser(user);
         if (newUser != null) {

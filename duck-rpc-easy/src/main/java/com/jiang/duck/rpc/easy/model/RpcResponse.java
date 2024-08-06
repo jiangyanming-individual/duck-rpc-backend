@@ -1,17 +1,14 @@
 package com.jiang.duck.rpc.easy.model;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.concurrent.Executors;
 
 /**
- * 返回类
+ * 响应返回类
  */
-
 @Data
 @Builder
 @AllArgsConstructor
@@ -27,7 +24,7 @@ public class RpcResponse implements Serializable {
     private Object data;
 
     /**
-     * 数据的类型
+     * 响应数据的类型
      */
     private Class<?> dataType;
 

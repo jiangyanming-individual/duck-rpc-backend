@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 
+/**
+ * 请求封装类
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -19,15 +22,14 @@ public class RpcRequest implements Serializable {
     //请求服务方法名、请求方法、请求参数类型、请求参数列表
 
     /**
-     * 请求服务的方法名
+     * 请求服务的类名
      */
     private String serviceName;
 
     /**
-     * 请求方法
+     * 请求方法名
      */
     private String methodName;
-
 
     /**
      * 请求参数类型列表

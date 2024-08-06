@@ -47,7 +47,6 @@ public class JdkSerializer implements Serializer {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
         try {
-
             //读取流文件：
             return (T) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {

@@ -12,19 +12,19 @@ public class VertxHttpServer implements HttpServe {
         Vertx vertx = Vertx.vertx();
         //创建http 服务器
         HttpServer server = vertx.createHttpServer();
-        server.requestHandler(request -> {
 
-            //http 请求
-            System.out.println("request method:" + request.method() + "request uri:" + request.uri());
+//        server.requestHandler(request -> {
+//            //http 请求
+//            System.out.println("request method:" + request.method() + "request uri:" + request.uri());
+//            //http 响应：
+//            HttpServerResponse response = request.response();
+//            response.putHeader("content-type", "text/plain");
+//            // Write to the response and end it
+//            response.end("Hello World!");
+//        });
 
-            //http 响应：
-            HttpServerResponse response = request.response();
-            response.putHeader("content-type", "text/plain");
-
-            // Write to the response and end it
-            response.end("Hello World!");
-        });
-
+        //监听端口并处理请求：
+        server.requestHandler(new HttpServerHandler());
         //future 类, 监听http端口
         server.listen(port, result -> {
             //异步返回

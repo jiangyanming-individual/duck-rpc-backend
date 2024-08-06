@@ -16,6 +16,7 @@
     <module>duck-rpc-easy</module>
     <module>example-consumer</module>
     <module>example-provider</module>
+    <module>duck-rpc-core</module>
   </modules>
 
   <properties>

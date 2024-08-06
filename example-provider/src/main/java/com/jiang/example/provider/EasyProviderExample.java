@@ -1,6 +1,7 @@
 package com.jiang.example.provider;
 
 
+import com.jiang.duck.rpc.core.RpcApplication;
 import com.jiang.duck.rpc.easy.registry.LocalRegistry;
 import com.jiang.duck.rpc.easy.serve.VertxHttpServer;
 import com.jiang.example.common.service.UserService;
@@ -10,6 +11,9 @@ import com.jiang.example.common.service.UserService;
  */
 public class EasyProviderExample {
     public static void main(String[] args) {
+
+        //框架初始化：
+        RpcApplication.init();
 
         //注册服务：
         LocalRegistry.register(UserService.class.getName(),UserServiceImpl.class);

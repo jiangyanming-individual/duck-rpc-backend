@@ -1,9 +1,11 @@
 package com.jiang.duck.rpc.core.serve;
 
+import com.jiang.duck.rpc.core.RpcApplication;
 import com.jiang.duck.rpc.core.model.RpcRequest;
 import com.jiang.duck.rpc.core.model.RpcResponse;
 import com.jiang.duck.rpc.core.registry.LocalRegistry;
 import com.jiang.duck.rpc.core.serializer.Serializer;
+import com.jiang.duck.rpc.core.serializer.SerializerFactory;
 import com.jiang.duck.rpc.core.serializer.impl.JdkSerializer;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
@@ -19,7 +21,6 @@ import java.lang.reflect.Method;
 public class HttpServerHandler implements Handler<HttpServerRequest> {
     @Override
     public void handle(HttpServerRequest httpServerRequest) {
-
         /**
          *
          * 主要步骤：
@@ -30,7 +31,10 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
          */
 
         //指定序列化器
-        final Serializer jdkSerializer=new JdkSerializer();
+//        final Serializer serializer=new JdkSerializer();
+        
+        //工厂的模式生成序列化器
+        Serializer serializer = SerializerFactory.getInstanceSerializer(RpcApplication.getRpcConfig().getSerializerKey());
         System.out.println("收到请求方法" + httpServerRequest.method() + "请求地址为：" + httpServerRequest.uri());
         httpServerRequest.bodyHandler(body -> {
             byte[] bytes = body.getBytes();
@@ -38,14 +42,14 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
             RpcResponse rpcResponse = new RpcResponse();
             try {
                 //先是反序列化得到rpcRequest对象，因为在消费者端请求的时候就已经被序列化过了
-                rpcRequest = jdkSerializer.deserialize(bytes, RpcRequest.class);
+                rpcRequest = serializer.deserialize(bytes, RpcRequest.class);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             //如果请求对象为空的情况下：
             if (rpcRequest == null){
                 rpcResponse.setMessage("rpcRequest is null");
-                doResponse(httpServerRequest,rpcResponse,jdkSerializer);
+                doResponse(httpServerRequest,rpcResponse,serializer);
                 return;
             }
             try {
@@ -65,7 +69,7 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
                 rpcResponse.setException(e);
             }
             //4. 对返回结果进行封装和序列化，并写入到响应中。
-            doResponse(httpServerRequest,rpcResponse,jdkSerializer);
+            doResponse(httpServerRequest,rpcResponse,serializer);
         });
 
     }
@@ -75,14 +79,14 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
      * 响应对象，对象相应对象进行序列化
      * @param request
      * @param rpcResponse
-     * @param jdkSerializer
+     * @param serializer
      */
-    void doResponse(HttpServerRequest request, RpcResponse rpcResponse, Serializer jdkSerializer){
+    void doResponse(HttpServerRequest request, RpcResponse rpcResponse, Serializer serializer){
         HttpServerResponse httpServerResponse = request.response();
         httpServerResponse.putHeader("content-type", "application/json"); //设置请求头，为json格式
         try {
             //序列化：将对象转化为字节数组
-            byte[] serializeData = jdkSerializer.serialize(rpcResponse);
+            byte[] serializeData = serializer.serialize(rpcResponse);
             //传输数据:
             httpServerResponse.end(Buffer.buffer(serializeData));
         } catch (IOException e) {

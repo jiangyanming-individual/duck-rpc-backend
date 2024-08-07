@@ -20,7 +20,7 @@ public class ConfigUtils {
     }
 
     /**
-     * 加载配置文件
+     * 加载配置文件转为配置类：
      * @param tClass
      * @param prefix
      * @param environment

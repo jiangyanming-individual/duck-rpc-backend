@@ -2,8 +2,8 @@ package com.jiang.example.consumer;
 
 
 import com.jiang.duck.rpc.core.config.RpcConfig;
+import com.jiang.duck.rpc.core.proxy.ServiceProxyFactory;
 import com.jiang.duck.rpc.core.utils.ConfigUtils;
-import com.jiang.duck.rpc.easy.proxy.ServiceProxyFactory;
 import com.jiang.example.common.model.User;
 import com.jiang.example.common.service.UserService;
 
@@ -13,11 +13,9 @@ import com.jiang.example.common.service.UserService;
 public class EasyConsumerExample {
     public static void main(String[] args) {
 
-
         //打印配置文件的信息：
         RpcConfig rpc = ConfigUtils.loadConfig(RpcConfig.class, "rpc");
         System.out.println("rpcConfig:" + rpc);
-
         User user = new User("duck");
         //代理对象静态代理
         // UserServiceProxy  userServiceProxy= new UserServiceProxy();
@@ -30,5 +28,6 @@ public class EasyConsumerExample {
         } else {
             System.out.println("user == null");
         }
+        System.out.println("number: " + userService.getNumber());
     }
 }

@@ -1,5 +1,6 @@
 package com.jiang.duck.rpc.core.config;
 
+import com.jiang.duck.rpc.core.constants.SerializerKeys;
 import lombok.Data;
 
 /**
@@ -32,5 +33,10 @@ public class RpcConfig {
      * 端口号
      */
     private Integer serverPort = 8080;
+
+    /**
+     * 默认的序列化器：JDK
+     */
+    private String serializerKey= SerializerKeys.JDK;
 
 }

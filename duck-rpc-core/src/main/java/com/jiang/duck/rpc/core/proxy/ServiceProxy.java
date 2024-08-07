@@ -3,9 +3,11 @@ package com.jiang.duck.rpc.core.proxy;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.jiang.duck.rpc.core.RpcApplication;
 import com.jiang.duck.rpc.core.model.RpcRequest;
 import com.jiang.duck.rpc.core.model.RpcResponse;
 import com.jiang.duck.rpc.core.serializer.Serializer;
+import com.jiang.duck.rpc.core.serializer.SerializerFactory;
 import com.jiang.duck.rpc.core.serializer.impl.JdkSerializer;
 
 
@@ -27,8 +29,11 @@ public class ServiceProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-        //序列化器
-        Serializer serializer = new JdkSerializer();
+        //序列化器: 硬编码的方式
+//        Serializer serializer = new JdkSerializer();
+        //使用序列工厂的模式：
+        Serializer serializer = SerializerFactory.getInstanceSerializer(RpcApplication.getRpcConfig().getSerializerKey());
+
         //请求封装类
         RpcRequest rpcRequest = RpcRequest.builder()
                 .serviceName(method.getDeclaringClass().getName()) //声明该方法的类

@@ -14,12 +14,11 @@ public class EasyProviderExample {
 
         //框架初始化：
         RpcApplication.init();
-
         //注册服务：
         LocalRegistry.register(UserService.class.getName(),UserServiceImpl.class);
 
         //提供服务：web服务
         VertxHttpServer vertxHttpServer = new VertxHttpServer();
-        vertxHttpServer.doStart(8020);
+        vertxHttpServer.doStart(8081);
     }
 }

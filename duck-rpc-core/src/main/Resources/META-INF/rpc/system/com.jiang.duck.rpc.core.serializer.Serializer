@@ -1,0 +1,2 @@
+jdk=com.jiang.duck.rpc.core.serializer.impl.JdkSerializer
+kryo=com.jiang.duck.rpc.core.serializer.impl.KryoSerializer

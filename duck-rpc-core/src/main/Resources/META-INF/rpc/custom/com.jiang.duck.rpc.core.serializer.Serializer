@@ -1,0 +1,2 @@
+json=com.jiang.duck.rpc.core.serializer.impl.JsonSerializer
+hessian=com.jiang.duck.rpc.core.serializer.impl.HessianSerializer

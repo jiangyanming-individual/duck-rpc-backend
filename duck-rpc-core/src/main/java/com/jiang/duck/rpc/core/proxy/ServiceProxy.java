@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 /**
- * 使用jdk实现的服务代理类：
+ * 使用jdk实现的消费者端的服务代理类：
  */
 public class ServiceProxy implements InvocationHandler {
 
@@ -32,7 +32,7 @@ public class ServiceProxy implements InvocationHandler {
         //序列化器: 硬编码的方式
 //        Serializer serializer = new JdkSerializer();
         //使用序列工厂的模式：
-        Serializer serializer = SerializerFactory.getInstanceSerializer(RpcApplication.getRpcConfig().getSerializerKey());
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializerKey());
 
         //请求封装类
         RpcRequest rpcRequest = RpcRequest.builder()
@@ -47,7 +47,7 @@ public class ServiceProxy implements InvocationHandler {
             byte[] requestBody = serializer.serialize(rpcRequest);
             byte[] result;
             //发送请求：
-            try (HttpResponse httpResponse = HttpRequest.post("http://localhost:8020").body(requestBody).execute()) {
+            try (HttpResponse httpResponse = HttpRequest.post("http://localhost:8081").body(requestBody).execute()) {
                 result = httpResponse.bodyBytes();
                 //反序列化：
                 RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
@@ -57,7 +57,6 @@ public class ServiceProxy implements InvocationHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }

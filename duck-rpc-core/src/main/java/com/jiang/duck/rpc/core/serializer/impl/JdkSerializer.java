@@ -28,7 +28,6 @@ public class JdkSerializer implements Serializer {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
         objectOutputStream.writeObject(obj);
         objectOutputStream.close();
-
         //转为字节数组
         return byteArrayOutputStream.toByteArray();
     }

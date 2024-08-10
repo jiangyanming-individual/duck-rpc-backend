@@ -25,7 +25,6 @@ public class ServiceProxyFactory {
         if (RpcApplication.getRpcConfig().getMock()) {
             return getMockProxy(serviceClass);
         }
-
         //反之直接返回代理对象：
         return (T) Proxy.newProxyInstance(
                 serviceClass.getClassLoader(),

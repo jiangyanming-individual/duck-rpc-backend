@@ -39,4 +39,10 @@ public class RpcConfig {
      */
     private String serializerKey= SerializerKeys.JDK;
 
+
+    /**
+     * 注册中心
+     */
+    private RegisterConfig registerConfig=new RegisterConfig();
+
 }

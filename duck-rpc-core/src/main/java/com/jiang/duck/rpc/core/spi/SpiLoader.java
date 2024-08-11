@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SpiLoader {
 
     /**
-     * 存储已知加载的类： (接口名,(key,实现类))
+     * 存储已知加载的类： (接口名的全路径,(key,实现类))
      */
     private static final Map<String, Map<String, Class<?>>> loadMap = new ConcurrentHashMap<>();
 
@@ -136,6 +136,7 @@ public class SpiLoader {
         Class<?> implClass = keyClassMap.get(key);
         //从实例中进行加载：获取实现类的全路径：
         String implClassName = implClass.getName();
+        log.info("implClassName: " + implClassName);
         //如果不存在，就直接实例化然后存储到instanceCache中：
         if (!instanceCache.containsKey(implClassName)){
             try {

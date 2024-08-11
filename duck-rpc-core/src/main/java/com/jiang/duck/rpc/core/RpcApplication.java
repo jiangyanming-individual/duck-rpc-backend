@@ -1,7 +1,10 @@
 package com.jiang.duck.rpc.core;
 
+import com.jiang.duck.rpc.core.config.RegisterConfig;
 import com.jiang.duck.rpc.core.config.RpcConfig;
 import com.jiang.duck.rpc.core.constants.RpcConstant;
+import com.jiang.duck.rpc.core.registry.Register;
+import com.jiang.duck.rpc.core.registry.RegistryFactory;
 import com.jiang.duck.rpc.core.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RpcApplication {
 
-
     //volatile 关键字
     private static volatile RpcConfig rpcConfig;
 
@@ -22,7 +24,6 @@ public class RpcApplication {
      * @return
      */
     public static RpcConfig getRpcConfig() {
-
         if (rpcConfig == null) {
             //加锁
             synchronized (RpcApplication.class) {
@@ -58,6 +59,12 @@ public class RpcApplication {
     public static void init(RpcConfig newRpcConfig) {
         //打印日志：
         log.info("rpc init, config={}", newRpcConfig.toString());
+        //得到注册中心的配置
+        RegisterConfig registerConfig = newRpcConfig.getRegisterConfig();
+        //得到注册中心
+        Register register = RegistryFactory.getInstance(registerConfig.getRegistryKey());
+        //注册中心初始化
+        register.init(registerConfig);
         //赋值给rpcConfig;
         rpcConfig = newRpcConfig;
     }

@@ -1,5 +1,6 @@
 package com.jiang.duck.rpc.core.model;
 
+import com.jiang.duck.rpc.core.constants.RpcConstant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,12 @@ public class RpcRequest implements Serializable {
      * 请求服务的类名
      */
     private String serviceName;
+
+
+    /**
+     * 服务版本号
+     */
+    private String serviceVersion= RpcConstant.DEFAULT_SERVICE_VERSION;
 
     /**
      * 请求方法名
